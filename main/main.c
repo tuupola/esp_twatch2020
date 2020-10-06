@@ -201,6 +201,10 @@ void app_main()
     wifi_init();
 
     ESP_LOGI(TAG, "Start SNTP sync");
+    /* Set your POSIX timezone here. */
+    setenv("TZ", "EET-3", 1);
+    tzset();
+
     sntp_setoperatingmode(SNTP_OPMODE_POLL);
     sntp_setservername(0, "pool.ntp.org");
     sntp_set_sync_mode(SNTP_SYNC_MODE_IMMED);
