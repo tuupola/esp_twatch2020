@@ -9,16 +9,16 @@ $ make -j8 flash
 
 ## AXP202
 
-|        | Purpose |
-| ------ | ------- |
-| DC-DC1 | PWM charger.|
-| DC-DC2 | Not used 0.7V to 2.275V, 1.6A.|
-| DC-DC3 | ESP32, 0.7V to 3.5V, 1.2A. **Always enable!** |
-| LDO1   | Always on 30mA. |
-| LDO2   | Display backlight 1.8V to 3.3V, 200mA. |
-| LDO3   | Audio power 0.7V to 3.5V, 200mA. |
-| LDO4   | Not used 1.8V to 3.3V, 200mA. |
-| LDO5   | Not used 1.8V to 3.3V, 50mA. |
+|         | Purpose |
+| ------- | ------- |
+| DC-DC1  | PWM charger.|
+| DC-DC2  | Not used 0.7V to 2.275V, 1.6A.|
+| DC-DC3  | ESP32, 0.7V to 3.5V, 1.2A. **Always enable!** |
+| LDO1    | Always on 30mA. |
+| LDO2 1) | Display backlight 1.8V to 3.3V, 200mA. |
+| LDO3 2) | Audio power 0.7V to 3.5V, 200mA. |
+| LDO4    | Not used 1.8V to 3.3V, 200mA. |
+| LDO5    | Not used 1.8V to 3.3V, 50mA. |
 
-
-Watch stops booting when LDO3 is enabled?
+1) Just turning LDO2 on is not enough. Must also enable PWM.
+2) Watch stops booting when LDO3 is enabled?
