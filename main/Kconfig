@@ -1,0 +1,11 @@
+menu "Lilygo T-Watch 2020 configuration"
+
+config WIFI_SSID
+    string "WiFi SSID"
+    default "hello"
+
+config WIFI_PASSWORD
+    string "WiFi password"
+    default "s11kr3t"
+
+endmenu

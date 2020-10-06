@@ -1,0 +1,9 @@
+[submodule "components/axp202"]
+	path = components/axp202
+	url = git@github.com:tuupola/axp202.git
+[submodule "components/esp_i2c_helper"]
+	path = components/esp_i2c_helper
+	url = git@github.com:tuupola/esp_i2c_helper.git
+[submodule "components/pcf8563"]
+	path = components/pcf8563
+	url = git@github.com:tuupola/pcf8563.git
