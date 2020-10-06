@@ -7,3 +7,9 @@
 [submodule "components/pcf8563"]
 	path = components/pcf8563
 	url = git@github.com:tuupola/pcf8563.git
+[submodule "components/hagl"]
+	path = components/hagl
+	url = git@github.com:tuupola/hagl.git
+[submodule "components/hagl_esp_mipi"]
+	path = components/hagl_esp_mipi
+	url = git@github.com:tuupola/hagl_esp_mipi.git
