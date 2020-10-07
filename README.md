@@ -1,5 +1,7 @@
 ## Lilygo T-Watch 2020 Kitchen Sink
 
+This repository aims to document and show how to use the different peripherals. For graphical demo check also [tuupola/esp_effects](https://github.com/tuupola/esp_effects). Compile the kitchen sink with the following:
+
 ```
 $ git clone git@github.com:tuupola/esp_twatch2020.git --recursive
 $ cd esp_twatch2020
