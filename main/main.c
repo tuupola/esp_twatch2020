@@ -72,7 +72,7 @@ void backbuffer_task(void *params)
     while (1) {
         hagl_flush();
         fb_fps = fps();
-        // vTaskDelayUntil(&last, period);
+        vTaskDelayUntil(&last, period);
     }
 
     vTaskDelete(NULL);
@@ -114,42 +114,47 @@ void rtc_task(void *params)
 
 void log_task(void *params)
 {
-//     float vacin, iacin, vvbus, ivbus, vts, temp, pbat, vbat, icharge, idischarge, vaps, cbat;
-//     uint8_t power, charge;
-//     char buffer[128];
+    float vacin, iacin, vvbus, ivbus, vts, vgpio0, vgpio1, temp, pbat;
+    float vbat, icharge, idischarge, ipsout, cbat, fuel;
+    uint8_t power, charge;
+    // char buffer[128];
 
     while (1) {
-//         axp192_read(&axp, AXP192_ACIN_VOLTAGE, &vacin);
-//         axp192_read(&axp, AXP192_ACIN_CURRENT, &iacin);
-//         axp192_read(&axp, AXP192_VBUS_VOLTAGE, &vvbus);
-//         axp192_read(&axp, AXP192_VBUS_CURRENT, &ivbus);
-//         axp192_read(&axp, AXP192_TEMP, &temp);
-//         axp192_read(&axp, AXP192_TS_INPUT, &vts);
-//         axp192_read(&axp, AXP192_BATTERY_POWER, &pbat);
-//         axp192_read(&axp, AXP192_BATTERY_VOLTAGE, &vbat);
-//         axp192_read(&axp, AXP192_CHARGE_CURRENT, &icharge);
-//         axp192_read(&axp, AXP192_DISCHARGE_CURRENT, &idischarge);
-//         axp192_read(&axp, AXP192_APS_VOLTAGE, &vaps);
-//         axp192_read(&axp, AXP192_COULOMB_COUNTER, &cbat);
+        axp202_read(&axp, AXP202_ACIN_VOLTAGE, &vacin);
+        axp202_read(&axp, AXP202_ACIN_CURRENT, &iacin);
+        axp202_read(&axp, AXP202_VBUS_VOLTAGE, &vvbus);
+        axp202_read(&axp, AXP202_VBUS_CURRENT, &ivbus);
+        axp202_read(&axp, AXP202_TEMP, &temp);
+        axp202_read(&axp, AXP202_TS_INPUT, &vts);
+        axp202_read(&axp, AXP202_GPIO0_VOLTAGE, &vgpio0);
+        axp202_read(&axp, AXP202_GPIO1_VOLTAGE, &vgpio1);
+        axp202_read(&axp, AXP202_BATTERY_POWER, &pbat);
+        axp202_read(&axp, AXP202_BATTERY_VOLTAGE, &vbat);
+        axp202_read(&axp, AXP202_CHARGE_CURRENT, &icharge);
+        axp202_read(&axp, AXP202_DISCHARGE_CURRENT, &idischarge);
+        axp202_read(&axp, AXP202_IPSOUT_VOLTAGE, &ipsout);
+        axp202_read(&axp, AXP202_COULOMB_COUNTER, &cbat);
+        axp202_read(&axp, AXP202_FUEL_GAUGE, &fuel);
 
-//         ESP_LOGI(TAG,
-//             "vacin: %.2fV iacin: %.2fA vvbus: %.2fV ivbus: %.2fA vts: %.2fV temp: %.0fC "
-//             "pbat: %.2fmW vbat: %.2fV icharge: %.2fA idischarge: %.2fA, vaps: %.2fV "
-//             "cbat: %.2fmAh",
-//             vacin, iacin, vvbus, ivbus, vts, temp, pbat, vbat, icharge, idischarge, vaps, cbat
-//         );
+        ESP_LOGI(TAG,
+            "vacin: %.2fV iacin: %.2fA vvbus: %.2fV ivbus: %.2fA vts: %.2fV temp: %.0fC "
+            "vgpio0: %.2fV vgpio1: %.2fV pbat: %.2fmW vbat: %.2fV icharge: %.2fA "
+            "idischarge: %.2fA, ipsout: %.2fV cbat: %.2fmAh fuel: %.0f%%",
+            vacin, iacin, vvbus, ivbus, vts, temp, vgpio0, vgpio1, pbat, vbat, icharge,
+            idischarge, ipsout, cbat, fuel
+        );
 
-//         axp192_ioctl(&axp, AXP192_READ_POWER_STATUS, &power);
-//         axp192_ioctl(&axp, AXP192_READ_CHARGE_STATUS, &charge);
-//         ESP_LOGI(TAG,
-//             "power: 0x%02x charge: 0x%02x",
-//             power, charge
-//         );
+        axp202_ioctl(&axp, AXP202_READ_POWER_STATUS, &power);
+        axp202_ioctl(&axp, AXP202_READ_CHARGE_STATUS, &charge);
+        ESP_LOGI(TAG,
+            "power: 0x%02x charge: 0x%02x",
+            power, charge
+        );
 
 //         strftime(buffer, 128 ,"%c (day %j)" , &rtc);
 //         ESP_LOGI(TAG, "RTC: %s", buffer);
 
-        vTaskDelay(5000 / portTICK_RATE_MS);
+        vTaskDelay(10000 / portTICK_RATE_MS);
 
         ESP_LOGI(TAG, "fps: %.1f", fb_fps);
     }
@@ -182,8 +187,8 @@ void app_main()
     axp.handle = &i2c_port;
 
     axp202_init(&axp);
-    // axp192_ioctl(&axp, AXP192_COULOMB_COUNTER_ENABLE, NULL);
-    // axp192_ioctl(&axp, AXP192_COULOMB_COUNTER_CLEAR, NULL);
+    // AXP202_ioctl(&axp, AXP202_COULOMB_COUNTER_ENABLE, NULL);
+    // AXP202_ioctl(&axp, AXP202_COULOMB_COUNTER_CLEAR, NULL);
 
     ESP_LOGI(TAG, "Initializing PCF8563");
     pcf.read = &i2c_read;
